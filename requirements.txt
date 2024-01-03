@@ -1,0 +1,3 @@
+google-cloud-pubsub==2.18.4  # Client library for Google Cloud Pub/Sub
+google-auth==2.24.0  # Authentication library for Google Cloud services
+pandas==1.4.2  # Data processing library
