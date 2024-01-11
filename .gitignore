@@ -1,0 +1,3 @@
+dags/credentials.json
+*/__pycache__
+logs/

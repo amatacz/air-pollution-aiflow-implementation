@@ -1,6 +1,6 @@
 # Import necessary modules
 from airflow import DAG
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 
 # Define default arguments for the DAG
@@ -24,23 +24,27 @@ dag = DAG(
     catchup=False,  # Prevents catch-up runs for past dates after deployment
 )
 
+
 def print_message():
     print('Hello World.')
 
+
 print_task = PythonOperator(
-    task_id = 'print_message', # Task ID
-    python_callable = print_message,
-    dag = dag
+    task_id='print_message',  # Task ID
+    python_callable=print_message,
+    dag=dag
 )
+
 
 def perform_calculation():
     result = 2 + 2
     print('The result is', result)
 
+
 calculation_task = PythonOperator(
-    task_id = 'perform_calculation',
-    python_callable = perform_calculation,
-    dag = dag
+    task_id='perform_calculation',
+    python_callable=perform_calculation,
+    dag=dag
 )
 
 print_task >> calculation_task
