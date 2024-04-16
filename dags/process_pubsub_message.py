@@ -150,7 +150,7 @@ def process_messages_with_pandas(ti):
     return df_transformed
 
 
-def save_processed_df_to_bigquery(dataset_name, table_name, **kwargs):
+def save_processed_df_to_bigquery(ti, dataset_name, table_name):
 
     '''
     This method sends processed data to Google Cloud BigQuery.
@@ -158,12 +158,10 @@ def save_processed_df_to_bigquery(dataset_name, table_name, **kwargs):
     Args:
     dataset_name -> name of dataset in GC BigQuery
     table_name -> name of table in dataset
-
-    **kwargs -> required to retrieve processed dataframe from XCOM
     '''
 
-    # Pull dataframe transformed in upstreamed task 
-    df_transformed = kwargs['ti'].xcom_pull(task_ids='process_messages')
+    # Pull dataframe transformed in upstreamed task
+    df_transformed = ti.xcom_pull(task_ids='process_messages')
 
     # Path to your service account key file
     service_account_path = 'dags/credentials.json'
@@ -248,7 +246,6 @@ save_to_bigquery = PythonOperator(
     task_id='save_processed_df_to_bigquery',
     python_callable=save_processed_df_to_bigquery,
     op_kwargs={
-        # 'df_transformed': process_messages_with_pandas,
         'dataset_name': 'air_pollution_dataset_unified',
         'table_name': 'unified_city_data'
     },
